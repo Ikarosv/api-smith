@@ -1,4 +1,4 @@
-import { postNewProduct } from '../models/products';
+import { getAllProducts, postNewProduct } from '../models/products';
 import Product from '../types/products';
 import errorGenerator from '../utils/errorFunction';
 
@@ -15,6 +15,11 @@ export async function postNewProductService(product: Product): Promise<Product |
   };
 }
 
-export async function getAllProducts() {
-  console.log('a');
+export async function getAllProductsService(): Promise<Product[] | never> {
+  const allProducts = await getAllProducts();
+
+  if (!allProducts) errorGenerator(500, 'Erro ao buscar produtos');
+  if (allProducts.length === 0) errorGenerator(404, 'Nenhum produto encontrado');
+
+  return allProducts;
 }
