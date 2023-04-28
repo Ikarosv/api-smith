@@ -4,10 +4,10 @@ import connection from './connection';
 
 const MAIN_DATABASE = process.env.MAIN_DATABASE || 'Trybesmith';
 
-export async function getAllProducts() {
-  const [products] = await connection.execute(
+export async function getAllProducts(): Promise<Product[]> {
+  const [products] = (await connection.execute(
     `SELECT * FROM ${MAIN_DATABASE}.products`,
-  );
+  ) as unknown) as [Product[]];
 
   return products;
 }
